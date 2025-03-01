@@ -27,7 +27,7 @@ services:
       - "${PRIVATE_KEY_FILE}:/certs/private.key"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.dashboard.rule=Host(`traefik.home.tastic`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      - "traefik.http.routers.dashboard.rule=Host(`reverse-proxy.home.tastic`)"
       - "traefik.http.routers.dashboard.service=api@internal"
       - "diun.enable=true"
       - "diun.include_tags=^3\\.\\d+\\.\\d+$"
