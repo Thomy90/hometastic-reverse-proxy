@@ -1,0 +1,37 @@
+services:
+  traefik:
+    image: "${IMAGE}"
+    container_name: "traefik"
+    restart: "always"
+    networks:
+      - "reverse-proxy"
+    command:
+      - "--global.checknewversion=false"
+      - "--global.sendanonymoususage=false"
+      - "--api=true"
+      - "--entryPoints.web.address=:80"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entryPoints.websecure.address=:443"
+      - "--entrypoints.websecure.http.tls=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.file.directory=/config"
+      - "--providers.file.watch=true"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./config/:/config/"
+      - "${PUBLIC_CRT_FILE}:/certs/public.crt"
+      - "${PRIVATE_KEY_FILE}:/certs/private.key"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.home.tastic`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "diun.enable=true"
+      - "diun.include_tags=^3\\.\\d+\\.\\d+$"
+
+networks:
+  reverse-proxy:
+    external: true
