@@ -32,6 +32,13 @@ services:
       - "traefik.http.routers.dashboard.service=api@internal"
       - "diun.enable=true"
       - "diun.include_tags=^3\\.\\d+\\.\\d+$"
+      - "homepage.group=Network & Security"
+      - "homepage.name=Traefik"
+      - "homepage.icon=traefik.png"
+      - "homepage.href=https://reverse-proxy.home.tastic"
+      - "homepage.description=Reverse Proxy"
+      - "homepage.widget.type=traefik"
+      - "homepage.widget.url=https://reverse-proxy.home.tastic"
 
 networks:
   reverse-proxy:
