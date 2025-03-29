@@ -23,8 +23,8 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "./config/:/config/"
-      - "${PUBLIC_CRT_FILE}:/certs/public.crt"
-      - "${PRIVATE_KEY_FILE}:/certs/private.key"
+      - "./ssl/certs/home.tastic.crt:/certs/public.crt"
+      - "./ssl/certs/home.tastic.key:/certs/private.key"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dashboard.rule=Host(`reverse-proxy.home.tastic`)"
